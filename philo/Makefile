@@ -6,14 +6,17 @@
 #    By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/11 06:09:32 by aechafii          #+#    #+#              #
-#    Updated: 2022/09/18 08:01:56 by aechafii         ###   ########.fr        #
+#    Updated: 2022/09/18 14:03:38 by aechafii         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRC =   philo.c \
-					
+SRC =   create_table.c	\
+		philo.c 		\
+		philo_utils.c	\
+		parser.c		\
+		
 HEADER = include/*.h
 
 OBJ = $(addprefix obj/, $(SRC:.c=.o))
