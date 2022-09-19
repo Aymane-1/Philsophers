@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:40:16 by aechafii          #+#    #+#             */
-/*   Updated: 2022/09/18 15:58:22 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:18:54 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,15 @@ void	test_range(t_table *table)
 		|| atoi_philo(table->args[4]) < 60)
 		philo_error(table);
 	else
-	{	
+	{
+		table->id = 1;
 		table->num_of_philos = atoi_philo(table->args[1]);
 		table->num_of_forks = atoi_philo(table->args[1]);
 		table->time_to_die = atoi_philo(table->args[2]);
 		table->time_to_eat = atoi_philo(table->args[3]);
 		table->time_to_sleep = atoi_philo(table->args[4]);
 		if (table->args[5])
-			table->num_of_iteration_to_eat = atoi_philo(table->args[5]);
+			table->num_of_turns_to_eat = atoi_philo(table->args[5]);
 	}
 }
 
