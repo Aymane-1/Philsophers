@@ -6,33 +6,33 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:40:16 by aechafii          #+#    #+#             */
-/*   Updated: 2022/09/19 18:18:54 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/09/20 13:49:31 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	test_range(t_table *table)
+void	test_range(t_philos *philos)
 {
-	if (atoi_philo(table->args[1]) > 200
-		|| atoi_philo(table->args[2]) < 60
-		|| atoi_philo(table->args[3]) < 60
-		|| atoi_philo(table->args[4]) < 60)
-		philo_error(table);
+	if (atoi_philo(philos->shared_data->args[1]) > 200
+		|| atoi_philo(philos->shared_data->args[2]) < 60
+		|| atoi_philo(philos->shared_data->args[3]) < 60
+		|| atoi_philo(philos->shared_data->args[4]) < 60)
+		philo_error(philos);
 	else
 	{
-		table->id = 1;
-		table->num_of_philos = atoi_philo(table->args[1]);
-		table->num_of_forks = atoi_philo(table->args[1]);
-		table->time_to_die = atoi_philo(table->args[2]);
-		table->time_to_eat = atoi_philo(table->args[3]);
-		table->time_to_sleep = atoi_philo(table->args[4]);
-		if (table->args[5])
-			table->num_of_turns_to_eat = atoi_philo(table->args[5]);
+		philos->id = 0;
+		philos->shared_data->num_of_philos = atoi_philo(philos->shared_data->args[1]);
+		philos->shared_data->num_of_forks = atoi_philo(philos->shared_data->args[1]);
+		philos->shared_data->time_to_die = atoi_philo(philos->shared_data->args[2]);
+		philos->shared_data->time_to_eat = atoi_philo(philos->shared_data->args[3]);
+		philos->shared_data->time_to_sleep = atoi_philo(philos->shared_data->args[4]);
+		if (philos->shared_data->args[5])
+			philos->shared_data->num_of_turns_to_eat = atoi_philo(philos->shared_data->args[5]);
 	}
 }
 
-void	error_parser(t_table *table)
+void	error_parser(t_philos *philos)
 {
 	char	*str;
 	int		i;
@@ -42,7 +42,7 @@ void	error_parser(t_table *table)
 	i = 1;
 	j = 0;
 	argument = 0;
-	str = table->args[i];
+	str = philos->shared_data->args[i];
 	while (str)
 	{
 		j = 0;
@@ -54,9 +54,9 @@ void	error_parser(t_table *table)
 				|| (argument <= 2147483647 || argument >= -2147483648))
 				j++;
 			else
-				philo_error(table);
+				philo_error(philos);
 		}
-		str = table->args[i++];
+		str = philos->shared_data->args[i++];
 	}
-	test_range(table);
+	test_range(philos);
 }

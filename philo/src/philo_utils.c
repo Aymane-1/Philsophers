@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 10:51:37 by aechafii          #+#    #+#             */
-/*   Updated: 2022/09/18 14:06:27 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/09/20 11:21:09 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ long	atoi_philo(char *str)
 	return (num * sign);
 }
 
-void	philo_error(t_table *table)
+void	philo_error(t_philos *philos)
 {
-	if (table)
-		free(table);
+	if (philos)
+		free(philos);
 	printf("\033[1;91mERROR ‼\033[0m\n");
 	exit(-1);
 }
