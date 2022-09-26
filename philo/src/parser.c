@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:40:16 by aechafii          #+#    #+#             */
-/*   Updated: 2022/09/20 13:49:31 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/09/26 19:55:29 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	test_range(t_philos *philos)
 		philo_error(philos);
 	else
 	{
-		philos->id = 0;
 		philos->shared_data->num_of_philos = atoi_philo(philos->shared_data->args[1]);
 		philos->shared_data->num_of_forks = atoi_philo(philos->shared_data->args[1]);
 		philos->shared_data->time_to_die = atoi_philo(philos->shared_data->args[2]);
@@ -38,7 +37,6 @@ void	error_parser(t_philos *philos)
 	int		i;
 	int		j;
 	int		argument;
-
 	i = 1;
 	j = 0;
 	argument = 0;
