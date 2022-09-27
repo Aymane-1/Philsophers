@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 06:11:29 by aechafii          #+#    #+#             */
-/*   Updated: 2022/09/26 20:41:57 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/09/27 19:17:57 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,17 @@ void	print_state(t_philos *philos, char state, int *id)
 void	*routine(t_philos *philos)
 {
 	if (philos->id & 1)
-		usleep(500);
+		usleep(800);
 	while (1)
 	{
-		pthread_mutex_lock(&philos[philos->id].forks);
+		pthread_mutex_lock(&philos[philos->left_fork].shared_data->forks);
 		print_state(philos, 'f', &philos->id);
-		pthread_mutex_lock(&philos[(philos->id + 1) % philos->shared_data->num_of_forks].forks);
+		pthread_mutex_lock(&philos[philos->right_fork].shared_data->forks);
 		print_state(philos, 'f', &philos->id);
 		usleep(philos->shared_data->time_to_eat / 1000);
 		print_state(philos, 'e', &philos->id);
-		pthread_mutex_unlock(&philos[philos->id].forks);
-		pthread_mutex_unlock(&philos[philos->id + 1 % philos->shared_data->num_of_forks].forks);
+		pthread_mutex_unlock(&philos[philos->left_fork].shared_data->forks);
+		pthread_mutex_unlock(&philos[philos->right_fork].shared_data->forks);
 		print_state(philos, 's', &philos->id);
 		usleep(philos->shared_data->time_to_sleep / 1000);
 		print_state(philos, 't', &philos->id);
@@ -86,48 +86,43 @@ static void	create_threads(t_philos *philos)
 	
 	i = 0;
 	status = 0;
-	while (++i < philos->shared_data->num_of_philos)
+	while (++i < philos[1].shared_data->num_of_philos)
 	{
-		philos[i].id = i;
-		status = pthread_create(&philos[i].philosophers, NULL, (void *)routine, (void *)(&philos[i]));
+		status = pthread_create(&philos[i].philosophers, NULL, (void *)routine, (&philos[i]));
 		if (status != 0)
 			philo_error(philos);
 		pthread_detach(philos[i].philosophers);
 	}
+	// pthread_join(philos[i].philosophers, NULL);
 }
 
-static void	create_mutexes(t_philos *philos)
+static void	create_mutexes(t_table *table)
 {
 	int	i;
 	int	status;
 
 	i = 0;
 	status = 0;
-	pthread_mutex_init(&philos->shared_data->mutex_print, NULL);
-	while (i++ < philos->shared_data->num_of_philos)
+	while (i++ < table->num_of_forks)
 	{
-		status = pthread_mutex_init(&philos[i].forks, NULL);
-		if (status != 0)
-			philo_error(philos);
+		status = pthread_mutex_init(&table[i].forks, NULL);
 	}
-}
-
-static void	parser(t_philos *philos)
-{
-	error_parser(philos);
-	test_range(philos);
 }
 
 int	main(int argc, char **argv)
 {
 	t_philos	*philos;
+	t_table		*table;
 
 	philos = NULL;
+	table = NULL;
 	if (argc < 5 || argc > 6)
 		philo_error(philos);
-	philos = create_table(argv);
-	parser(philos);
-	create_mutexes(philos);
+	table = create_table();
+	philos = create_philos(table, argv);
+	error_parser(philos, argv);
+	test_range_and_parse(table, argv);
+	create_mutexes(table);
 	create_threads(philos);
 	return (0);
 }
