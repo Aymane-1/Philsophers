@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 06:11:32 by aechafii          #+#    #+#             */
-/*   Updated: 2022/09/27 19:10:43 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:25:54 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ typedef struct s_table
 	int					time_to_sleep;
 	int					num_of_turns_to_eat;
 	pthread_mutex_t		mutex_print;
-	pthread_mutex_t		forks;
 } t_table;
 
 typedef struct s_philos
 {
 	pthread_t			philosophers;
+	pthread_mutex_t		*forks;
 	int					id;
 	int					left_fork;
 	int					right_fork;
-	struct s_table		*shared_data;
+	t_table				*shared_data;
 } t_philos;
 
 int			ft_is_digit(int a);
@@ -47,7 +47,7 @@ long		atoi_philo(char *str);
 void		error_parser(t_philos *philos, char **argv);
 void		test_range_and_parse(t_table *table, char **argv);
 void		philo_error(t_philos *philos);
-t_table		*create_table();
+t_table		*create_table(char *argv);
 t_philos	*create_philos(t_table *table, char **argv);
 long long	timer();
 
