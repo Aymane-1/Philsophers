@@ -6,23 +6,19 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:43:01 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/01 18:45:35 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/02 21:54:17 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-t_table	*create_table(char *argv)
+void	create_table(t_table *table)
 {
-	t_table			*table;
-	int				i;
-	pthread_mutex_t forks[atoi_philo(argv)];
 	
-	i = 0;
-	table = NULL;
-	table = (t_table *)malloc(sizeof(t_table));
-	if (!table)
-		exit(-1);
+	// i = 0;
+	// table->philos = (t_philos *)malloc(sizeof(t_philos) * table->num_of_philos);
+	// if (!table)
+	// 	exit(-1);
 	table->num_of_philos = 0;
 	table->num_of_forks = 0;
 	table->time_to_die = 0;
@@ -30,11 +26,11 @@ t_table	*create_table(char *argv)
 	table->time_to_sleep = 0;
 	table->num_of_turns_to_eat = 0;
 	table->elapsed_time = timer();
-	pthread_mutex_init(&table->mutex_print, NULL);
-	return (table);
+	// pthread_mutex_init(&table->mutex_print, NULL);
+	// return (table);
 }
 
-t_philos	*create_philos(t_table *table, char **argv)
+t_philos	*create_philos(t_table table, char **argv)
 {
 	t_philos	*philos;
 	int			nb_philos;
@@ -45,20 +41,18 @@ t_philos	*create_philos(t_table *table, char **argv)
 	philos = malloc(sizeof(t_philos) * nb_philos);
 	if (!philos)
 		exit(1);
-	philos->forks = malloc(sizeof(pthread_mutex_t) * nb_philos);
-	philos->forks = &philos->forks[0];
+	// philos->forks = malloc(sizeof(pthread_mutex_t);
+	// philos->forks = &philos->forks[0];
 	while (i < nb_philos)
 	{
-		pthread_mutex_init(&philos->forks[i], NULL);
+		pthread_mutex_init(&philos[i].forks, NULL);
 		i++;
 	}
 	i = 0;
 	while (i < nb_philos)
 	{
 		philos[i].id = i;
-		philos[i].left_fork = i;
-		philos[i].right_fork = (i + 1) % nb_philos;
-		philos[i].shared_data = table;
+		philos[i].shared_data = &table;
 		i++;
 	}
 	return (philos);

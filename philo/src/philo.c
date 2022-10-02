@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 06:11:29 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/01 20:11:58 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/02 21:58:51 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	print_state(t_philos *philos, char state, int *id)
 {
 	long long	time_start = 0;
 	time_start = timer();
-	printf("lock of print status = %d\n", pthread_mutex_lock(&philos->shared_data->mutex_print));
+	pthread_mutex_lock(&philos->shared_data->mutex_print);
 	if (state == 'f')
 		printf("%lld \e[4m\e[0m\e[1;90mPHILOSOPHER\e[0m \e[1;33m%d\e[0m \e[1;3mhas taken a fork\e[0m\n"
 				,time_diff(timer(), philos->shared_data->elapsed_time), *id);
@@ -60,70 +60,65 @@ void	print_state(t_philos *philos, char state, int *id)
 	else if (state == 't')
 		printf("%lld \e[4m\e[0m\e[1;90mPHILOSOPHER\e[0m \e[1;33m%d\e[0m \e[1;3mis thinking\e[0m\n"
 				,time_diff(timer(), philos->shared_data->elapsed_time), *id);
-	// pthread_mutex_unlock(&philos->shared_data->mutex_print);
-	printf("unlock of print status = %d\n", pthread_mutex_unlock(&philos->shared_data->mutex_print));
+	pthread_mutex_unlock(&philos->shared_data->mutex_print);
 }
 
-void	*routine(t_philos *philos)
+void	*routine(void *philo)
 {
-	int left_fork = philos->id;
-	int right_fork = (philos->id + 1) % philos->shared_data->num_of_philos;
-	printf("left fork = %d\n", left_fork);
-	printf("right fork = %d\n", right_fork);
-	if (philos->id & 1)
+	t_philos *philos = (t_philos *)philo;
+	t_table *table = philos->shared_data;
+	if (philos->id % 2)
 		usleep(700);
 	while (1)
 	{
-		printf("Lock status of left_fork = %d\n", pthread_mutex_lock(&philos->forks[right_fork]));
-		// printf("philos id = %d\n", philos->id);
-		// pthread_mutex_lock(&philos->forks[left_fork]);
+		// printf("%d\n",philos->id);
+		pthread_mutex_lock(&table->philos[philos->id].forks);
 		print_state(philos, 'f', &philos->id);
-		// pthread_mutex_lock(&philos->forks[right_fork]);
-		printf("Lock status of right_fork = %d\n", pthread_mutex_lock(&philos->forks[left_fork]));
+		printf("id in routine = %d\n", philos->id);
+		pthread_mutex_lock(&table->philos[(philos->id + 1) % table->num_of_philos].forks);
 		print_state(philos, 'f', &philos->id);
-		usleep(philos->shared_data->time_to_eat * 1000);
+		usleep(table->time_to_eat * 1000);
 		print_state(philos, 'e', &philos->id);
-		printf("Unlock status of left_fork= %d\n", pthread_mutex_unlock(&philos->forks[right_fork]));
-		printf("Unlock status of right_fork = %d\n", pthread_mutex_unlock(&philos->forks[left_fork]));
-		// pthread_mutex_unlock(&philos->forks[left_fork]);
-		pthread_mutex_unlock(&philos->forks[right_fork]);
+		pthread_mutex_unlock(&table->philos[philos->id].forks);
+		pthread_mutex_unlock(&table->philos[(philos->id + 1) % table->num_of_philos].forks);
 		print_state(philos, 's', &philos->id);
-		usleep(philos->shared_data->time_to_sleep * 1000);
+		usleep(table->time_to_sleep * 1000);
 		print_state(philos, 't', &philos->id);
 	}
 	return NULL;
 }
 
-static void	create_threads(t_philos *philos)
+static void	create_threads(t_table table)
 {	
 	int	i;
-	int	status;
-	int	state;
 	
 	i = 0;
-	status = 0;
-	state = 0;
-	while (i < philos->shared_data->num_of_philos)
+	while (i < table.num_of_philos)
 	{
-		pthread_create(&philos[i].philosophers, NULL, (void *)routine, &philos[i]);
-		pthread_join(philos[i].philosophers, NULL);
+		pthread_create(&(table.philos[i].philosophers), NULL, (void *)routine, (void *)&table.philos[i]);
+		i++;
+	}
+	i = 0;
+	while (i < table.num_of_philos)
+	{
+		pthread_join(table.philos[i].philosophers, NULL);
 		i++;
 	}
 }
 
 int	main(int argc, char **argv)
 {
+	t_table		table;
 	t_philos	*philos;
-	t_table		*table;
 
 	philos = NULL;
-	table = NULL;
 	if (argc < 5 || argc > 6)
-		philo_error(philos);
-	table = create_table(argv[1]);
-	philos = create_philos(table, argv);
+		exit(-1);
+	create_table(&table);
+	// philos = create_philos(table, argv);
+	table.philos = create_philos(table, argv);
 	error_parser(philos, argv);
-	test_range_and_parse(table, argv);
-	create_threads(philos);
+	test_range_and_parse(&table, argv);
+	create_threads(table);
 	return (0);
 }

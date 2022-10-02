@@ -6,7 +6,7 @@
 #    By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/11 06:09:32 by aechafii          #+#    #+#              #
-#    Updated: 2022/09/28 14:01:55 by aechafii         ###   ########.fr        #
+#    Updated: 2022/10/02 21:14:49 by aechafii         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OBJ = $(addprefix obj/, $(SRC:.c=.o))
 
 CC = cc
 
-CFLAGS =  -I include
+CFLAGS = -Wall -Werror -Wextra -I include 
 
 all: $(NAME)
 
