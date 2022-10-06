@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 06:11:32 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/06 15:31:13 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/06 20:37:21 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_philos
 	int					left_fork;
 	int					right_fork; 
 	int					nb_meals;
-	long long					last_snack;
+	long long			last_snack;
 	struct s_table		*table;
 }	t_philos;
 

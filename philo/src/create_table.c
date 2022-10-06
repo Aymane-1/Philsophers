@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:43:01 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/06 15:35:15 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/06 21:06:07 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,22 @@ int		death_verifier(t_philos **philo)
 	int		i;
 	t_philos * philos = *philo;
 
-	printf("num of philos = %d\n", philos->table->num_of_philos);
 	i = 0;
-	while (i < philos->table->num_of_philos)
+	while(1)
 	{
-		printf("time to die = %d,  last meal = %lld\n", philos->table->time_to_die, timer() - philos->last_snack);
-		if (philos[i].table->time_to_die > (time_diff(timer(), philos->last_snack)))	 // save last time of eat and check if its longer than time_to_die
+		while (i < philos->table->num_of_philos)
 		{
-			pthread_mutex_lock(&philos->table->mutex_print);
-			printf("%lld \e[1;90mPHILOSOPHER\e[0m \e[1;33m%d\e[0m \e[1;91mDIED ‼\e[0m ​😵​​​\n", (timer() - philos->table->elapsed_time) ,philos->id + 1);
-			return(1);
+			if (time_diff(timer(), philos->last_snack >= philos->table->time_to_die)) // save last time of eat and check if its longer than time_to_die
+			{
+				pthread_mutex_lock(&philos->table->mutex_print);
+				printf("%lld \e[1;90mPHILOSOPHER\e[0m \e[1;33m%d\e[0m \e[1;91mDIED ‼\e[0m ​😵​​​\n",
+				 (timer() - philos->table->elapsed_time) ,philos->id);
+				exit (1);
+			}
+			i++;
 		}
-		i++;
+		return (0);
 	}
-	return (0);
 }
 
 void	my_usleep(long long time) 
