@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:40:16 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/02 21:55:29 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:12:32 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	test_range_and_parse(t_table *table, char **argv)
 			table->time_to_die = atoi_philo(argv[2]);
 			table->time_to_eat = atoi_philo(argv[3]);
 			table->time_to_sleep = atoi_philo(argv[4]);
-			table->time_to_sleep = timer();
+			table->elapsed_time = timer();
 			if (argv[5])
 				table->num_of_turns_to_eat = atoi_philo(argv[5]);
 			else
@@ -34,7 +34,7 @@ void	test_range_and_parse(t_table *table, char **argv)
 	}
 }
 
-void	error_parser(t_philos *philos, char** argv)
+void	error_parser(char** argv)
 {
 	char	*str;
 	int		i;
@@ -56,7 +56,10 @@ void	error_parser(t_philos *philos, char** argv)
 				|| (argument <= 2147483647 || argument >= -2147483648))
 				j++;
 			else
-				philo_error(philos);
+			{
+				printf("\033[1;91mERROR ‼\033[0m\n");
+				exit(-1);
+			}
 		}
 		str = argv[i++];
 	}

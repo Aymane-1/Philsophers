@@ -6,51 +6,55 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 06:11:32 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/02 21:54:35 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:31:13 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#	ifndef PHILO_H
+#ifndef PHILO_H
 # define PHILO_H 
 
-# include <unistd.h>
 # include <stdio.h>
-# include <stdlib.h>
-# include <signal.h>
 # include <pthread.h>
+# include <stdlib.h>
+# include <unistd.h>
 # include <sys/time.h>
-
-typedef struct s_philos t_philos;
 
 typedef struct s_table
 {
-	long long			elapsed_time;
 	int					num_of_philos;
 	int					num_of_forks;
 	int					time_to_die;
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					num_of_turns_to_eat;
+	long long			elapsed_time;
 	pthread_mutex_t		mutex_print;
-	t_philos 			*philos;
-} t_table;
+	pthread_mutex_t		*forks;
+}	t_table;
 
 typedef struct s_philos
 {
-	pthread_t			philosophers;
-	pthread_mutex_t		forks;
+	pthread_t			threads;
 	int					id;
-	t_table		*shared_data;
-} t_philos;
+	int					left_fork;
+	int					right_fork; 
+	int					nb_meals;
+	long long					last_snack;
+	struct s_table		*table;
+}	t_philos;
 
 
 int			ft_is_digit(int a);
 long		atoi_philo(char *str);
-void		error_parser(t_philos *philos, char **argv);
+void		error_parser(char **argv);
 void		test_range_and_parse(t_table *table, char **argv);
 void		philo_error(t_philos *philos);
 void		create_table(t_table *table);
-t_philos	*create_philos(t_table table, char **argv);
+void		initialize_threads(t_philos **philo ,t_table *table);
 long long	timer();
+long long	time_diff(long long end, long long start);
+void		my_usleep(long long time);
+int			death_verifier(t_philos **philo);
+void		print_state(t_table *table, long long time, char state, int *id);
 
 #	endif
