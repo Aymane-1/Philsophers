@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 06:11:29 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/06 21:06:39 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/07 20:46:29 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*routine(void *philo)
 {
 	t_philos *philos = (t_philos *)philo;
 	if (philos->id % 2)
-		usleep(800);
+		usleep(600);
 	while (1)
 	{
 		pthread_mutex_lock(&philos->table->forks[philos->right_fork]);
@@ -35,15 +35,17 @@ void	*routine(void *philo)
 		print_state(philos->table, philos->table->elapsed_time, 'f', &philos->id);
 		print_state(philos->table, philos->table->elapsed_time, 'e', &philos->id);
 		my_usleep(philos->table->time_to_eat);
-		philos->last_snack = timer();
-		// printf("last meal = %lld\n", philos->last_snack);
-		philos->nb_meals++;
+		philos->last_snack = timer() - philos->table->elapsed_time;
+		printf("last snack = %lld\n", (philos->last_snack));
+		// printf(" id = %d  | Elapsed time = %lld\n", philos->id, (timer() - philos->last_snack));
+		// printf("Elapsed time since last meal = %lld | id = %d\n", (timer() - philos->last_snack), philos->id);
+		// philos->nb_meals++;
 		pthread_mutex_unlock(&philos->table->forks[philos->right_fork]);
 		pthread_mutex_unlock(&philos->table->forks[philos->left_fork]);
 		print_state(philos->table, philos->table->elapsed_time, 's', &philos->id);
 		my_usleep(philos->table->time_to_sleep);
 		print_state(philos->table, philos->table->elapsed_time, 't', &philos->id);
-		// death_verifier(&philos);
+		death_verifier(&philos);
 	}
 	return NULL;
 }
@@ -91,6 +93,5 @@ int	main(int argc, char **argv)
 		pthread_mutex_init(&table.mutex_print, NULL);
 		initialize_threads(&philos, &table);
 		create_threads(&philos, &table);
-		death_verifier(&philos);
 	}
 }
