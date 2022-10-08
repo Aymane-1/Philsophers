@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 06:11:32 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/07 20:57:23 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/08 18:46:22 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_table
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					num_of_turns_to_eat;
+	int					wasted;
 	long long			elapsed_time;
 	pthread_mutex_t		mutex_print;
 	pthread_mutex_t		*forks;

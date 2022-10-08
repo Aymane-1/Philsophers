@@ -6,7 +6,7 @@
 #    By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/11 06:09:32 by aechafii          #+#    #+#              #
-#    Updated: 2022/10/07 16:04:07 by aechafii         ###   ########.fr        #
+#    Updated: 2022/10/08 10:29:23 by aechafii         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = philo
 SRC =  	parser.c		\
 		philo.c 		\
 		philos_func0.c	\
-		philos_func1.c	
+		philos_func1.c
 		
 HEADER = include/*.h
 

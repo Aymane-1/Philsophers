@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:40:16 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/06 11:12:32 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/08 12:05:45 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	test_range_and_parse(t_table *table, char **argv)
 {
 	if (atoi_philo(argv[1]) > 200
+		|| atoi_philo(argv[1]) <= 1
 		|| atoi_philo(argv[2]) < 60
 		|| atoi_philo(argv[3]) < 60
 		|| atoi_philo(argv[4]) < 60)
