@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 06:11:32 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/09 15:16:48 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:59:12 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ typedef struct s_philos
 	int					id;
 	int					left_fork;
 	int					right_fork; 
-	int					nb_meals;
+	int					meals;
 	long long			last_snack;
 	struct s_table		*table;
 }	t_philos;
 
 void		error_parser(char **argv);
-void		test_range_and_parse(t_table *table, char **argv);
+int		test_range_and_parse(t_table *table, char **argv);
 void		philo_error(t_philos *philos);
 void		create_table(t_table *table);
 void		initialize_threads(t_philos **philo ,t_table *table);
