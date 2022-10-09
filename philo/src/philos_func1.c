@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:43:01 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/08 19:53:35 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/09 15:05:50 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,19 @@ int		death_verifier(t_philos **philo)
 	int			i;
 	t_philos	*philos = *philo;
 
-	i = 0;
-	while (1)
+	while (!(philos->table->wasted))
 	{
-		i = 0;
-		while (i < philos->table->num_of_philos)
+		i = -1;
+		while (++i < philos->table->num_of_philos)
 		{
-			if (philos[i].last_snack >= philos->table->time_to_die)
+			if (((timer() - philos->table->elapsed_time) - philos[i].last_snack) >= philos->table->time_to_die)
 			{
-				printf("ID = %d | timer = %lld | time of last snack = %lld\n", philos[i].id,
-				(timer() - philos->table->elapsed_time), philos[i].last_snack);
 				pthread_mutex_lock(&philos->table->mutex_print);
-				printf("ID = %d | timer = %lld | Elapsed time since last snack = %lld\n",
-				 philos->id, (timer() - philos->table->elapsed_time), philos[i].last_snack);
 				printf("%lld \e[1;90mPHILOSOPHER\e[0m \e[1;33m%d\e[0m \e[1;91mDIED ‼\e[0m ​😵​​​\n",
-				 (timer() - philos->table->elapsed_time), philos->id);
-				 philos->table->wasted = 1;
+				 (timer() - philos->table->elapsed_time), i + 1);
+				philos->table->wasted = 1;
 				return (1);
 			}
-			i++;
 		}
 	}
 	return (0);

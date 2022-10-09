@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:40:16 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/08 12:05:45 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/09 15:17:26 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	test_range_and_parse(t_table *table, char **argv)
 			table->time_to_eat = atoi_philo(argv[3]);
 			table->time_to_sleep = atoi_philo(argv[4]);
 			table->elapsed_time = timer();
+			table->wasted = 0;
 			if (argv[5])
 				table->num_of_turns_to_eat = atoi_philo(argv[5]);
 			else

@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 06:11:29 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/08 19:52:15 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/09 15:17:33 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,14 @@ void	*routine(void *philo)
 	t_philos *philos = (t_philos *)philo;
 	if (philos->id % 2)
 		usleep(600);
-	while (1)
+	while (!philos->table->wasted)
 	{
 		pthread_mutex_lock(&philos->table->forks[philos->right_fork]);
 		print_state(philos->table, philos->table->elapsed_time, 'f', &philos->id);
 		pthread_mutex_lock(&philos->table->forks[philos->left_fork]);
 		print_state(philos->table, philos->table->elapsed_time, 'f', &philos->id);
 		print_state(philos->table, philos->table->elapsed_time, 'e', &philos->id);
-		philos->last_snack = timer() - philos->table->elapsed_time;
-		printf("id = %d | last meal time = %lld\n", philos->id, philos->last_snack);
+		philos->last_snack = (timer() - philos->table->elapsed_time);
 		my_usleep(philos->table->time_to_eat);
 		// philos->nb_meals++;
 		pthread_mutex_unlock(&philos->table->forks[philos->right_fork]);
@@ -43,7 +42,6 @@ void	*routine(void *philo)
 		print_state(philos->table, philos->table->elapsed_time, 's', &philos->id);
 		my_usleep(philos->table->time_to_sleep);
 		print_state(philos->table, philos->table->elapsed_time, 't', &philos->id);
-		death_verifier(&philos);
 	}
 	return NULL;
 }
@@ -59,13 +57,7 @@ static void	create_threads(t_philos **philo, t_table *table)
 	{
 		philos[i].last_snack = timer();
 		pthread_create(&philos[i].threads, NULL, routine, &philos[i]);
-		// i++;
-	}
-	i = -1;
-	while (++i < table->num_of_philos)
-	{
-		pthread_join(philos[i].threads, NULL);
-		// i++;
+		pthread_detach(philos[i].threads);
 	}
 }
 
@@ -88,14 +80,11 @@ int	main(int argc, char **argv)
 		philos = malloc(sizeof(t_philos) * table.num_of_philos);
 		table.forks = malloc(sizeof(pthread_mutex_t) * table.num_of_forks);
 		while (++i < table.num_of_philos)
-		{
-			table.wasted = 0;
 			pthread_mutex_init(&table.forks[i], NULL);
-		}
 		pthread_mutex_init(&table.mutex_print, NULL);
 		initialize_threads(&philos, &table);
 		create_threads(&philos, &table);
-		// if (death_verifier(&philos))
-		// 	return (0);
+		if (death_verifier(&philos))
+			return (0);
 	}
 }
