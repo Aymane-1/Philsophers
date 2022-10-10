@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*   philos_func0.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 10:51:37 by aechafii          #+#    #+#             */
-/*   Updated: 2022/09/28 10:55:14 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/10 21:24:29 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_is_digit(int a)
 {
-	if (a >= '0' && a <= '9')
+	if (a >= 0 && a <= 9)
 		return (1);
 	else
 		return (0);
@@ -24,12 +24,10 @@ long	atoi_philo(char *str)
 {
 	long	num;
 	int		i;
-	int		len;
 	int		sign;
 
 	num = 0;
 	i = 0;
-	len = 0;
 	sign = 1;
 	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
 		|| str[i] == '\f')
@@ -40,19 +38,15 @@ long	atoi_philo(char *str)
 		sign = 1;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
-	while (str[i] >= '0' && str[i] <= '9')
+	while (str[i])
 	{
-		num = num * 10 + (str[i] - '0');
-		i++;
-		len++;
+		if (str[i] >= '0' &&  str[i] <= '9')
+		{
+			num = num * 10 + (str[i] - '0');
+			i++;
+		}
+		else
+			return (-1);
 	}
 	return (num * sign);
-}
-
-void	philo_error(t_philos *philos)
-{
-	if (philos)
-		free(philos);
-	printf("\033[1;91mERROR ‼\033[0m\n");
-	exit(-1);
 }

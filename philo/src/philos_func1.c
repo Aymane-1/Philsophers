@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:43:01 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/09 21:18:29 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/10 21:38:46 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 void	initialize_threads(t_philos **philo, t_table *table)
 {
-	t_philos	*philos = *philo;
+	t_philos	*philos;
 	int			i;
 	
 	i = 0;
+	philos = *philo;
 	while (i < table->num_of_philos)
 	{
 		philos[i].id = i + 1;
@@ -52,8 +53,9 @@ int		death_verifier(t_philos **philo)
 {
 	int			i;
 	int			j;
-	t_philos	*philos = *philo;
-
+	t_philos	*philos;
+	
+	philos = *philo;
 	while (!(philos->table->wasted))
 	{
 		i = 0;
@@ -67,7 +69,7 @@ int		death_verifier(t_philos **philo)
 				philos->table->wasted = 1;
 				return (1);
 			}
-			if (philos->table->num_of_turns_to_eat != -1)
+			if (philos->table->num_of_turns_to_eat > 0)
 			{
 				j = 0;
 				while (j < philos->table->num_of_philos)
@@ -82,7 +84,7 @@ int		death_verifier(t_philos **philo)
 						usleep(100);
 						printf("\e[1;32m%lld \e[1;36mEVERY PHILOSOPHER ATE AT LEAST \e[32m%d\e[0m \e[1;94mTIMES.\e[0m\n",
 						 (timer() - philos->table->elapsed_time), philos->table->num_of_turns_to_eat);
-						return(1);
+						return (1);
 					}
 				}
 			}

@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 06:11:32 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/09 19:59:12 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/10 21:24:11 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,8 @@ typedef struct s_philos
 	struct s_table		*table;
 }	t_philos;
 
-void		error_parser(char **argv);
-int		test_range_and_parse(t_table *table, char **argv);
-void		philo_error(t_philos *philos);
+int			error_parser(char **argv);
+int			test_range_and_parse(t_table *table, char **argv);
 void		create_table(t_table *table);
 void		initialize_threads(t_philos **philo ,t_table *table);
 void		my_usleep(long long time);

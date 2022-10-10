@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 06:11:29 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/09 20:30:50 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/10 20:19:53 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ long long	timer()
 
 void	*routine(void *philo)
 {
-	t_philos *philos = (t_philos *)philo;
-	if (philos->id % 2)
+	t_philos *philos;
+	
+	philos = (t_philos *)philo;
+	if (philos->id & 1)
 		usleep(600);
 	while (!philos->table->wasted)
 	{
@@ -48,10 +50,11 @@ void	*routine(void *philo)
 
 static void	create_threads(t_philos **philo, t_table *table)
 {	
-	int	i;
-	t_philos *philos = *philo;
+	int			i;
+	t_philos	*philos;
 	
 	i = 0;
+	philos = *philo;
 	table->elapsed_time = timer();
 	while (i < table->num_of_philos)
 	{
@@ -69,15 +72,17 @@ int	main(int argc, char **argv)
 
 	if (argc < 5 || argc > 6)
 	{
-		printf("Error\n");	
+		printf("\e[1;31mWRONG NUMBER OF ARGUMENTS !\e[0m\n");
 		return (0);
 	}
 	else
 	{	
 		i = -1;
-		error_parser(argv);
-		if (test_range_and_parse(&table, argv))
-			return(0);
+		if (error_parser(argv) || test_range_and_parse(&table, argv))
+		{
+			printf("\e[1;31mINVALID ARGUMENTS !\e[0m\n");
+			return (0);
+		}
 		philos = malloc(sizeof(t_philos) * table.num_of_philos);
 		table.forks = malloc(sizeof(pthread_mutex_t) * table.num_of_forks);
 		while (++i < table.num_of_philos)
