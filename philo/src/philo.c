@@ -6,56 +6,46 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 06:11:29 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/10 20:19:53 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/11 20:06:17 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long long	timer()
-{
-	struct timeval	time_start;
-	long long		milli;
-
-	gettimeofday(&time_start, NULL);
-	milli = (time_start.tv_sec * 1000) + (time_start.tv_usec / 1000);
-	return (milli);
-}
-
 void	*routine(void *philo)
 {
-	t_philos *philos;
-	
+	t_philos	*philos;
+
 	philos = (t_philos *)philo;
 	if (philos->id & 1)
 		usleep(600);
-	while (!philos->table->wasted)
+	while (1)
 	{
 		pthread_mutex_lock(&philos->table->forks[philos->right_fork]);
-		print_state(philos->table, philos->table->elapsed_time, 'f', &philos->id);
+		print_state(philos->table, philos->table->timer, 'f', &philos->id);
 		pthread_mutex_lock(&philos->table->forks[philos->left_fork]);
-		print_state(philos->table, philos->table->elapsed_time, 'f', &philos->id);
-		print_state(philos->table, philos->table->elapsed_time, 'e', &philos->id);
-		philos->last_snack = (timer() - philos->table->elapsed_time);
+		print_state(philos->table, philos->table->timer, 'f', &philos->id);
+		print_state(philos->table, philos->table->timer, 'e', &philos->id);
+		philos->last_snack = (timer() - philos->table->timer);
 		my_usleep(philos->table->time_to_eat);
 		philos->meals++;
 		pthread_mutex_unlock(&philos->table->forks[philos->right_fork]);
 		pthread_mutex_unlock(&philos->table->forks[philos->left_fork]);
-		print_state(philos->table, philos->table->elapsed_time, 's', &philos->id);
+		print_state(philos->table, philos->table->timer, 's', &philos->id);
 		my_usleep(philos->table->time_to_sleep);
-		print_state(philos->table, philos->table->elapsed_time, 't', &philos->id);
+		print_state(philos->table, philos->table->timer, 't', &philos->id);
 	}
-	return NULL;
+	return (NULL);
 }
 
 static void	create_threads(t_philos **philo, t_table *table)
 {	
 	int			i;
 	t_philos	*philos;
-	
+
 	i = 0;
 	philos = *philo;
-	table->elapsed_time = timer();
+	table->timer = timer();
 	while (i < table->num_of_philos)
 	{
 		pthread_create(&philos[i].threads, NULL, routine, &philos[i]);
@@ -70,23 +60,18 @@ int	main(int argc, char **argv)
 	t_table		table;
 	t_philos	*philos;
 
-	if (argc < 5 || argc > 6)
-	{
-		printf("\e[1;31mWRONG NUMBER OF ARGUMENTS !\e[0m\n");
+	if (parser(argc, argv, &table) != 1)
 		return (0);
-	}
 	else
 	{	
-		i = -1;
-		if (error_parser(argv) || test_range_and_parse(&table, argv))
-		{
-			printf("\e[1;31mINVALID ARGUMENTS !\e[0m\n");
-			return (0);
-		}
+		i = 0;
 		philos = malloc(sizeof(t_philos) * table.num_of_philos);
 		table.forks = malloc(sizeof(pthread_mutex_t) * table.num_of_forks);
-		while (++i < table.num_of_philos)
+		while (i <= table.num_of_philos)
+		{
 			pthread_mutex_init(&table.forks[i], NULL);
+			i++;
+		}
 		pthread_mutex_init(&table.mutex_print, NULL);
 		initialize_threads(&philos, &table);
 		create_threads(&philos, &table);
