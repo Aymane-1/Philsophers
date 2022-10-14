@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/18 11:40:16 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/11 20:42:10 by aechafii         ###   ########.fr       */
+/*   Created: 2022/10/11 23:05:51 by aechafii          #+#    #+#             */
+/*   Updated: 2022/10/11 23:07:47 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	parser(int argc, char **argv, t_table *table)
 {

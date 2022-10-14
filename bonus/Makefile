@@ -5,17 +5,17 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/09/11 06:09:32 by aechafii          #+#    #+#              #
-#    Updated: 2022/10/11 20:23:50 by aechafii         ###   ########.fr        #
+#    Created: 2022/10/11 21:09:16 by aechafii          #+#    #+#              #
+#    Updated: 2022/10/11 23:34:07 by aechafii         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philo
+NAME = philo_bonus
 
 SRC =  	parser.c		\
-		philo.c 		\
-		philos_func0.c	\
-		philos_func1.c
+		philo_bonus.c 	\
+		bonus_func0.c	\
+		bonus_func1.c
 		
 HEADER = include/*.h
 
@@ -31,7 +31,7 @@ bonus: $(NAME)
 
 $(NAME): $(OBJ)
 	@ $(CC) $(OBJ) $(CFLAGS) -o $(NAME)
-	@echo "\n\033[90;1;4mPHILO\033[0m \033[1;32mCOMPLETE!\033[0m\n"
+	@echo "\n\033[90;1;4mPHILO_BONUS\033[0m \033[1;32mCOMPLETE!\033[0m\n"
 		
 obj/%.o : src/%.c $(HEADER)
 	@mkdir -p obj
@@ -46,7 +46,7 @@ clean:
 
 fclean: clean
 		@rm -rf $(NAME) 
-		@echo "\033[90;1;4mPHILO\033[0m \033[34;1mEXECUTABLE\033[0m \033[1;31mREMOVED! \n \033[0m"
+		@echo "\033[90;1;4mPHILO_BONUS\033[0m \033[34;1mEXECUTABLE\033[0m \033[1;31mREMOVED! \n \033[0m"
 
 
 re: fclean all
