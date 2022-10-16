@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 21:07:39 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/14 13:21:14 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/16 10:44:35 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 # include <semaphore.h>
 
 typedef struct s_table
@@ -30,8 +32,8 @@ typedef struct s_table
 	int					time_to_sleep;
 	int					turns;
 	long long			timer;
+	sem_t				*semaphore;
 	pthread_mutex_t		mutex_print;
-	sem_t				semaphore;
 }	t_table;
 
 typedef struct s_philos
@@ -49,6 +51,7 @@ int			parser(int argc, char **argv, t_table *table);
 int			error_parser(char **argv);
 int			test_range_and_parse(t_table *table, char **argv);
 int			ft_is_digit(int a);
+void		print_state(t_table *table, long long time, char state, int *id);
 void		initialize_processes(t_philos **philo, t_table *table);
 void		my_usleep(long long time);
 long		atoi_philo(char *str);
