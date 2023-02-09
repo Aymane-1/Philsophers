@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:40:16 by aechafii          #+#    #+#             */
-/*   Updated: 2023/02/09 14:16:01 by aechafii         ###   ########.fr       */
+/*   Updated: 2023/02/09 21:21:19 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ int	test_range_and_parse(t_table *table, char **argv)
 {
 	int	i;
 
-	if (atoi_philo(argv[1]) > 200 || atoi_philo(argv[1]) <= 0
-		|| atoi_philo(argv[2]) < 60 || atoi_philo(argv[3]) < 60
-		|| atoi_philo(argv[4]) < 60)
-		return (1);
 	table->num_of_philos = atoi_philo(argv[1]);
 	table->num_of_forks = atoi_philo(argv[1]);
 	table->time_to_die = atoi_philo(argv[2]);
@@ -78,7 +74,6 @@ int	error_parser(char **argv)
 				|| (str[j] == '+' && ft_is_digit(str[j + 1]))
 				|| (argument <= 2147483647 || argument >= -2147483648))
 				j++;
-			return (0);
 		}
 		str = argv[i++];
 	}

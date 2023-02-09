@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:43:01 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/11 19:30:41 by aechafii         ###   ########.fr       */
+/*   Updated: 2023/02/09 20:39:06 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ static int	turns_to_eat(t_philos *philos)
 	{
 		if (philos[i].meals >= philos->table->turns)
 			i++;
-		else
-			break ;
 		if (i == philos->table->num_of_philos)
 		{
 			usleep(100);
