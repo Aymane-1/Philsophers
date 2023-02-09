@@ -6,7 +6,7 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 11:40:16 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/11 20:42:10 by aechafii         ###   ########.fr       */
+/*   Updated: 2023/02/09 14:16:01 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	parser(int argc, char **argv, t_table *table)
 	if (argc < 5 || argc > 6)
 	{
 		printf("\e[1;90mARGUMENTS ARE EITHER\e[0m \e[4;1;31m");
-		printf("5\e[0m\e[1;90m OR\e[0m \e[1;4;31m6\e[0m \e[1;33m‼\n");
+		printf("4\e[0m\e[1;90m OR\e[0m \e[1;4;31m5\e[0m \e[1;33m‼\n");
 		return (0);
 	}
 	if (error_parser(argv) || test_range_and_parse(table, argv))

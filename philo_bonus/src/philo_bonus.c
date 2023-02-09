@@ -6,18 +6,18 @@
 /*   By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 23:10:28 by aechafii          #+#    #+#             */
-/*   Updated: 2022/10/17 11:51:27 by aechafii         ###   ########.fr       */
+/*   Updated: 2022/10/19 19:13:16 by aechafii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	critical_section(t_philos *philos)
+void	critical_section(t_philos *philos, int id)
 {
 	while (1)
 	{
 		printf("PID = %d | PHILO ID = %d | Entering the critical section..\n",
-			getpid(), philos->id);	
+			getpid(), id);	
 		print_state(philos->table, philos->table->timer, 'f', &philos->id);
 		sem_wait(philos->table->semaphore);
 		print_state(philos->table, philos->table->timer, 'f', &philos->id);
@@ -60,19 +60,13 @@ int	main(int argc, char **argv)
 		else
 		{
 			philos->pid[i] = fork();
-			// break ;
+			break ;
 		}
 	}
-	// printf("FIRST ELEMENT = %d\n", philos[1].pid[0]);
 	initialize_processes(&philos, &table);
-	i = 1;
 	int status = 0;
-	while (i <= table.num_of_philos)
-	{
-		if (getpid() != pid)
-			critical_section(&philos[i]);
-		i++;
-	}
+	if (getpid() != pid)
+		critical_section(philos, philos->id);
 	waitpid(pid, &status, 0);
 	if (getpid() != pid)
 		kill(getpid(), SIGKILL);

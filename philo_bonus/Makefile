@@ -6,7 +6,7 @@
 #    By: aechafii <aechafii@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 21:09:16 by aechafii          #+#    #+#              #
-#    Updated: 2022/10/11 23:34:07 by aechafii         ###   ########.fr        #
+#    Updated: 2022/10/19 13:51:47 by aechafii         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,11 +42,11 @@ obj/%.o : src/%.c $(HEADER)
 
 clean:
 		@rm -rf $(OBJ)
-		@echo "\n\033[1;34mOBJECT FILES\033[0m \033[1;32mCLEANED!\033[0m\n"
+		@echo "\n\033[1;32mOBJECT FILES CLEANED!\033[0m\n"
 
 fclean: clean
 		@rm -rf $(NAME) 
-		@echo "\033[90;1;4mPHILO_BONUS\033[0m \033[34;1mEXECUTABLE\033[0m \033[1;31mREMOVED! \n \033[0m"
+		@echo "\033[90;1;4mPHILO\033[0m \033[90;1mEXECUTABLE\033[0m \033[1;31mREMOVED! \n \033[0m"
 
 
 re: fclean all
